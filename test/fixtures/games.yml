@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player_name: MyString
+  difficulty: 1
+  has_many: MyString
+  : 
+
+two:
+  player_name: MyString
+  difficulty: 1
+  has_many: MyString
+  : 

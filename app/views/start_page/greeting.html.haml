@@ -1,0 +1,13 @@
+%h1
+  Bulls 7 Cows
+= form_with model: @game do |f|
+  / = f.label 'name', 'Ваше имя:'
+  / = f.text_field :name
+  / = fields_for :game, @player.games.first do |pf|
+  = f.label :difficulty, 'Сложность:'
+  = f.radio_button :difficulty, '1', checked: :true
+  = f.radio_button :difficulty, '2'
+  = f.radio_button :difficulty, '3'
+  = f.submit 'Начать игру!'
+
+

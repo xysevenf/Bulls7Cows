@@ -1,3 +1,8 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root 'start_page#greeting', as: :greeting
+  resources :players do
+    # resources :games
+  end
+  resources :games
+
 end
