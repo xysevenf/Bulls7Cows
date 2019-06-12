@@ -1,0 +1,13 @@
+%strong
+  =@game.number
+%br
+Moves:
+-@game.moves.each do |m|
+  ="#{m.number}-#{m.result} "
+%br
+=@solver.potentials
+%br
+%strong
+  =@solver.potentials.size
+%br
+= link_to "Следующий ход", game_moves_path(@game), method: :post
