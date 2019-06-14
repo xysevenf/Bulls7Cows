@@ -1,6 +1,6 @@
 class Bulls::Solver
 
-  attr_accessor :potentials
+  attr_reader :potentials
 
   def initialize(game)
     @game = game
@@ -17,8 +17,6 @@ class Bulls::Solver
     @potentials.sample
   end
 
-  private
-
   def reduce_potentials
     @game.moves.each do |move|
       new_potentials = []
@@ -28,6 +26,8 @@ class Bulls::Solver
       @potentials = new_potentials
     end
   end
+
+  private
 
   def should_del?(move, potential)
     number = move.number
@@ -39,7 +39,7 @@ class Bulls::Solver
     elsif cows == 0 && bulls == 0
       result = true if (potential.digits & number.digits).size > 0
     else
-      if (potential.digits & number.digits).size < bulls + cows
+      if (potential.digits & number.digits).size != bulls + cows
         result = true
       end
       if bulls > 0

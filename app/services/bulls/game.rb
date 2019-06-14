@@ -1,7 +1,13 @@
 class Bulls::Game
 
+  attr_accessible :moves
+
+  def initialize
+  end
+
   def initialize(game)
     @secret = game.number
+    @moves = []
   end
 
   def secret

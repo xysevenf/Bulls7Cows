@@ -6,5 +6,5 @@ Rails.application.routes.draw do
   resources :games do
     resources :moves, only: :create
   end
-
+  get 'game_test', to: 'games#test_average'
 end
