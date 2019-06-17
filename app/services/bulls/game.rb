@@ -1,21 +1,16 @@
 class Bulls::Game
 
-  attr_accessible :moves
+  attr_accessor :moves, :secret
 
   def initialize
-  end
-
-  def initialize(game)
-    @secret = game.number
+    @secret = gen_secret
     @moves = []
   end
 
-  def secret
-    if @secret == nil
-      @secret = 0
-      (0..9).to_a.shuffle[0..3].each_with_index do |el, i|
-        @secret += el * 10**i
-      end
+  def gen_secret
+    @secret = 0
+    (0..9).to_a.shuffle[0..3].each_with_index do |el, i|
+      @secret += el * 10**i
     end
     @secret
   end

@@ -10,32 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_06_171424) do
+ActiveRecord::Schema.define(version: 2019_05_22_175242) do
 
   create_table "games", force: :cascade do |t|
-    t.integer "difficulty"
-    t.integer "player_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "number"
-    t.index ["player_id"], name: "index_games_on_player_id"
   end
 
   create_table "moves", force: :cascade do |t|
     t.integer "number"
-    t.integer "player_id"
+    t.integer "result"
     t.integer "game_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "result"
     t.index ["game_id"], name: "index_moves_on_game_id"
-    t.index ["player_id"], name: "index_moves_on_player_id"
-  end
-
-  create_table "players", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
 end

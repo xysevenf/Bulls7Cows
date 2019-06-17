@@ -1,13 +1,26 @@
 %strong
-  =@game.number
 %br
-Moves:
+= form_with model: @move, url: game_moves_path(@game), method: :post do |f|
+  = f.label :number, 'Ваш ход'
+  = f.text_field :number, autocomplete: :off
+  = f.label :result, 'Результат хода'
+  = f.text_field :result, autocomplete: :off
+  = f.hidden_field :game_id, value: @game.id
+  = f.submit 'Потвердить'
+Ходы:
 -@game.moves.each do |m|
   ="#{m.number}-#{m.result} "
+  = 'Победа!' if m.result == 40
 %br
-=@solver.potentials
+Варианты:
+-if @solver.potentials.size < 1000
+  =@solver.potentials
+-else
+  ='Еще слишком много...'
 %br
 %strong
   =@solver.potentials.size
 %br
 = link_to "Следующий ход", game_moves_path(@game), method: :post
+%br
+=link_to 'Новая игра', new_game_path

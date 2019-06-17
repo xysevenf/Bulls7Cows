@@ -1,14 +1,10 @@
 class GamesController < ApplicationController
 
   def new
-    @game = Game.new
   end
 
   def create
-    game = Game.new(permitted_params)
-    game.player_id = 1
-    bulls = Bulls::Game.new(game)
-    game.number = bulls.secret
+    game = Game.new
     if game.save
       redirect_to game
     else
@@ -18,30 +14,29 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
-    @solver = Bulls::Solver.new(@game)
+    @solver = Bulls::Solver.new(@game.moves)
+    @move = Move.new
+    @move.number = @solver.next_move
   end
 
   def test_average
-    repeat = 30
+    repeat = 1000
     results = []
+    move_class = Struct.new(:number, :result)
     repeat.times do
-      game = Bulls.Game.new
-      game.secret
-      solver = Bulls::Solver.new(game)
-      res = 0
-      until res != 40 do
-        game.moves << solver.next_move
-        res = game.guess(game.moves.last)
-        solver.reduce_potentials
+      game = Bulls::Game.new
+      moves = []
+      solver = Bulls::Solver.new(moves)
+      move = move_class.new
+      until move.result == 40 do
+        move = move_class.new
+        move.number = solver.next_move
+        move.result = game.guess(move.number)
+        moves << move
+        solver.reduce_potentials_one
       end
-
-      result << moves_counter
+      results << moves.size
     end
-
-    render plain: "#{result.inject { |sum, el| sum + el } / result.size }"
-  end
-
-  def permitted_params
-    params.require(:game).permit(:difficulty)
+    render plain: "#{results.inject { |sum, el| sum + el } / results.size.to_f }"
   end
 end
