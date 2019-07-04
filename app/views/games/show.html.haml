@@ -12,6 +12,8 @@
   ="#{m.number}-#{m.result} "
   = 'Победа!' if m.result == 40
 %br
+-@estimates.each do |e|
+  ="#{e} "
 Варианты:
 -if @solver.potentials.size < 1000
   =@solver.potentials
