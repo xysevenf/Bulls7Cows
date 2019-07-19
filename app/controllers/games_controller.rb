@@ -17,27 +17,5 @@ class GamesController < ApplicationController
     @solver = Bulls::Solver.new(@game.moves)
     @move = Move.new
     @move.number = @solver.next_move
-    @estimates = @solver.estimates
-  end
-
-  def test_average
-    repeat = 1000
-    results = []
-    move_struct = Struct.new(:number, :result)
-    repeat.times do
-      game = Bulls::Game.new
-      moves = []
-      solver = Bulls::Solver.new(moves)
-      move = move_struct.new
-      until move.result == 40 do
-        move = move_struct.new
-        move.number = solver.next_move
-        move.result = game.bulls_cows(move.number)
-        moves << move
-        solver.reduce_potentials_last
-      end
-      results << moves.size
-    end
-    render plain: "#{results.inject { |sum, el| sum + el } / results.size.to_f }"
   end
 end

@@ -1,11 +1,10 @@
 class Bulls::Solver
 
-  attr_reader :potentials, :estimates
+  attr_reader :potentials
 
   def initialize(moves = [])
     @moves = moves
     @potentials = []
-    @estimates = []
     for i in 123..9876
       if i.to_s.size == 3 && i.digits.any?{ |d| d == 0 }
         next
@@ -17,10 +16,6 @@ class Bulls::Solver
   end
 
   def next_move
-    return @potentials.sample if @moves.size < 1
-    # if @potentials.size < 150
-    #   @estimates = estimate_moves(@potentials)
-    # end
     @potentials.sample
   end
 
@@ -42,14 +37,6 @@ class Bulls::Solver
       end
       @potentials = new_potentials
     end
-  end
-
-  def count_reduce_potentials(move)
-    counter = 0
-    @potentials.each do |potential|
-      counter += 1 if should_del?(move, potential)
-    end
-    counter
   end
 
   def should_del?(move, potential)
@@ -85,23 +72,6 @@ class Bulls::Solver
       end
     end
     result
-  end
-
-  def estimate_moves(potentials)
-    result = []
-    game = Bulls::Game.new_no_secret
-    move = Struct.new(:number, :result).new
-    potentials.each do |potential|
-      reduction_estimates = []
-      potentials.each do |target|
-        next if target == potential
-        move.number = potential
-        move.result = game.bulls_cows(potential, target)
-        reduction_estimates << count_reduce_potentials(move)
-      end
-      result << reduction_estimates.inject { |sum, el| sum + el }
-    end
-  result.sort
   end
 end
 
