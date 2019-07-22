@@ -17,5 +17,6 @@ class GamesController < ApplicationController
     @solver = Bulls::Solver.new(@game.moves)
     @move = Move.new
     @move.number = @solver.next_move
+    @last_move = @game.moves.last
   end
 end

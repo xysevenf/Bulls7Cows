@@ -1,0 +1,65 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+*
+  box-sizing: border-box
+  color: #3a5f74
+
+.container
+  max-width: 1000px
+  margin: 0 auto
+  font-family: Tahoma
+
+header
+  width: 100%
+  display: flex
+  justify-content: space-between
+  align-items: flex-end
+  .logo, .title
+    font-weight: bold
+  .logo
+    font-size: 36px
+    a
+      display: block
+      text-decoration: none
+  .title
+    font-size: 24px
+    text-align: right
+    font-weight: normal
+
+
+footer
+  width: 100%
+  display: flex
+  justify-content: space-between
+  align-items: flex-end
+  .bull-img
+    width: 280px
+    transform: scale(-1, 1)
+  .cow-img
+    width: 230px
+
+@media (max-width: 768px)
+  header
+    display: block
+    .title
+      text-align: left
+      font-size: 18px
+  footer
+    .bull-img
+      width: 150px
+      transform: scale(-1, 1)
+    .cow-img
+      width: 120px

@@ -1,26 +1,47 @@
-%strong
-%br
-= form_with model: @move, url: game_moves_path(@game), method: :post do |f|
-  = f.label :number, 'Ваш ход'
-  = f.text_field :number, autocomplete: :off
-  = f.label :result, 'Результат хода'
-  = f.text_field :result, autocomplete: :off
-  = f.hidden_field :game_id, value: @game.id
-  = f.submit 'Потвердить'
-Ходы:
--@game.moves.each do |m|
-  ="#{m.number}-#{m.result} "
-  = 'Победа!' if m.result == 40
-%br
-Варианты:
--if @solver.potentials.size < 1000
-  =@solver.potentials
--else
-  ='Еще слишком много...'
-%br
-%strong
-  =@solver.potentials.size
-%br
-= link_to "Следующий ход", game_moves_path(@game), method: :post
-%br
-=link_to 'Новая игра', new_game_path
+.main-holder
+  = form_with model: @move, url: game_moves_path(@game), method: :post, class: 'main-form' do |f|
+    = f.label :number, 'Следующий ход'
+    = f.text_field :number, type: 'number', autocomplete: :off
+    = f.label :cows, 'Коров'
+    = f.text_field :cows, type: 'number', autocomplete: :off
+    = f.label :bulls, 'Быков'
+    = f.text_field :bulls, type: 'number', autocomplete: :off
+    = f.hidden_field :game_id, value: @game.id
+    = f.submit 'Подтвердить', class: 'btn btn-std'
+  -if @game.moves.any?
+    %p
+      Список ходов:
+    .table-holder
+      %table
+        %tbody
+          %tr
+            %th
+              Ход
+            %th
+              Коров
+            %th
+              Быков
+          -@game.moves.each do |m|
+            %tr
+              %td= m.number
+              -if m.result == 40
+                %td.win{ colspan: 2 }= 'ПОБЕДА!'
+              -else
+                %td= m.result % 10
+                %td= m.result / 10
+            -"#{m.number}-#{m.result} "
+            - 'Победа!' if m.result == 40
+  %p= "Оставшихся вариантов: #{@solver.potentials.size}"
+  -if @solver.potentials.size < 100
+    %p= @solver.potentials.join(' ')
+  -else
+    %p
+      Список отобразится когда вариантов станет меньше 100.
+  -if @last_move
+    -delete_path = game_move_path(@game, @last_move)
+    -delete_method = :delete
+  -else
+    -delete_path = game_path(@game)
+    -delete_method = :get
+  = link_to "Отменить последний ход", delete_path, method: delete_method, class: 'btn btn-std btn-long'
+  =link_to 'Новая игра', games_path, method: :post, class: 'btn btn-std btn-long'

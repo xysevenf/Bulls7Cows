@@ -1,5 +1,9 @@
-%h1
-  Bulls 7 Cows
-%h2
-  Победи любого в игру Быки и Коровы!
-= link_to "Поехали!", games_path, method: :post
+.main-holder
+  %h1
+    Добро пожаловать!
+  %p
+    Начните новую игру и система подскажет каждый ход для наиболее быстрой победы в игре Быки и Коровы
+  = link_to "Начать игру!", games_path, method: :post, class: 'btn start-btn'
+  .img
+    = image_tag "game.png", class: 'game-img'
+
