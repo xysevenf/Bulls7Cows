@@ -9,15 +9,15 @@ describe Bulls::Solver do
     context 'when initializing with one move' do
       context 'and move result is 1 cow and 1 bull' do
         moves = []
-        moves << Move.new(number: 1234, result: 11)
+        moves << Move.new(number: 1234, cows: 1, bulls: 1)
         solver = Bulls::Solver.new(moves)
         it 'solver have 720 items in potentials' do
           expect(solver.potentials.size).to be 720
         end
       end
-      context 'and move result is 4 cows' do
+      context 'and move result is 4 cows 0 bulls' do
         moves = []
-        moves << Move.new(number: 1234, result: 4)
+        moves << Move.new(number: 1234, cows: 4, bulls: 0)
         solver = Bulls::Solver.new(moves)
         it 'solver have 9 items in potentials' do
           expect(solver.potentials.size).to be 9

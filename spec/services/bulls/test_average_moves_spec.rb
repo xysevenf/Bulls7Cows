@@ -1,18 +1,18 @@
 RSpec.describe 'Bulls::Solver', :no_auto => true do
   context 'if we run solver for 1000 games' do
-    it 'solves all games for' do
+    it 'solves all games with' do
       repeat = 1000
       results = []
-      move_struct = Struct.new(:number, :result)
+      move_struct = Struct.new(:number, :cows, :bulls)
       repeat.times do
         game = Bulls::Game.new
         moves = []
         solver = Bulls::Solver.new(moves)
         move = move_struct.new
-        until move.result == 40 do
+        until move.bulls == 4 do
           move = move_struct.new
           move.number = solver.next_move
-          move.result = game.bulls_cows(move.number)
+          move.cows, move.bulls = game.bulls_cows(move.number)
           moves << move
           solver.reduce_potentials_last
         end

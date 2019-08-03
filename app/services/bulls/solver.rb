@@ -45,8 +45,8 @@ class Bulls::Solver
     number_digits << 0 if number_digits.size < 4
     potential_digits = potential.digits
     potential_digits << 0 if potential_digits.size < 4
-    cows = move.result % 10
-    bulls = move.result / 10
+    cows = move.cows
+    bulls = move.bulls
     result = false
     if number == potential && bulls != 4
       result = true

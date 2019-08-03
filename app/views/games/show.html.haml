@@ -1,11 +1,12 @@
 .main-holder
-  = form_with model: @move, url: game_moves_path(@game), method: :post, class: 'main-form' do |f|
+  = form_with model: @move, url: game_moves_path(@game), method: :post,
+              local: true, class: 'main-form' do |f|
     = f.label :number, 'Следующий ход'
-    = f.text_field :number, type: 'number', autocomplete: :off
+    = f.text_field :number, type: 'number', min: 123, max: 9876, autocomplete: :off
     = f.label :cows, 'Коров'
-    = f.text_field :cows, type: 'number', autocomplete: :off
+    = f.text_field :cows, type: 'number', min: 0, max: 4, autocomplete: :off
     = f.label :bulls, 'Быков'
-    = f.text_field :bulls, type: 'number', autocomplete: :off
+    = f.text_field :bulls, min: 0, max: 4, type: 'number', autocomplete: :off
     = f.hidden_field :game_id, value: @game.id
     = f.submit 'Подтвердить', class: 'btn btn-std'
   -if @game.moves.any?
@@ -24,19 +25,21 @@
           -@game.moves.each do |m|
             %tr
               %td= m.number
-              -if m.result == 40
+              -if m.bulls == 4
                 %td.win{ colspan: 2 }= 'ПОБЕДА!'
               -else
-                %td= m.result % 10
-                %td= m.result / 10
-            -"#{m.number}-#{m.result} "
-            - 'Победа!' if m.result == 40
+                %td= m.cows
+                %td= m.bulls
+            - 'Победа!' if m.bulls == 4
   %p= "Оставшихся вариантов: #{@solver.potentials.size}"
-  -if @solver.potentials.size < 100
+  -if @solver.potentials.size > 100
+    %p
+      Список отобразится когда вариантов станет меньше 100.
+  -elsif @solver.potentials.size > 0
     %p= @solver.potentials.join(' ')
   -else
     %p
-      Список отобразится когда вариантов станет меньше 100.
+      Вариантов не осталось! Вы, или ваш соперник где-то ошиблись.
   -if @last_move
     -delete_path = game_move_path(@game, @last_move)
     -delete_method = :delete

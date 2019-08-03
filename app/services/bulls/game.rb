@@ -30,7 +30,7 @@ class Bulls::Game
         bulls += 1 if n_digit == s_digit && n == s
       end
     end
-    bulls * 10 + cows
+    [cows, bulls]
   end
 
 end
